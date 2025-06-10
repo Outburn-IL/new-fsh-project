@@ -1,39 +1,35 @@
-# צ'קליסט ליצירת פרויקט חדש בפיש
+# Checklist for Creating a New Project in FSH
 
 ---
 
-להלן רשימת הפעולות הנדרשות ליצירת פרויקט חדש:
+1.  **Clone the Repository:**
+    * Clone the required repository into your new project's folder.
+    * Ensure you give the new repository a suitable name for your project.
 
-1.  **שיבוט הריפו:**
-     בצעו `clone` לריפו הנדרש לתיקיית הפרויקט החדש.
-     ודאו שהריפו החדש מקבל שם מתאים לפרויקט.
+2.  **Edit `sushi-config.yaml`:**
+    * Inside the project directory, open the `sushi-config.yaml` file.
+    * Edit all fields that contain content within curly braces (`{}`).
+    * **Note:** The ID must comply with FHIR guidelines, which can be found here: [https://confluence.hl7.org/plugins/servlet/mobile?contentId=35718629#content/view/35718629](https://confluence.hl7.org/plugins/servlet/mobile?contentId=35718629#content/view/35718629)
 
-2.  **עריכת קובץ `sushi-config.yaml`:**
-     בתוך ספריית הפרויקט, פתחו את הקובץ `sushi-config.yaml`.
-     ערכו את כל השדות המכילים תוכן בתוך סוגריים מסולסלים (`{}`).
-     **שימו לב:** ה-ID חייב לעמוד בהנחיות FHIR בנושא, אותן ניתן למצוא כאן:
- [https://confluence.hl7.org/plugins/servlet/mobile?contentId=35718629#content/view/35718629](https://confluence.hl7.org/plugins/servlet/mobile?contentId=35718629#content/view/35718629)
+3.  **Edit `package.json`:**
+    * Perform the same editing steps for the `package.json` file.
+    * **Important:** For fields with identical names in both files, the values **must** be the same!
 
-3.  **עריכת קובץ `package.json`:**
-     בצעו את אותן פעולות עריכה בקובץ `package.json`.
-     **חשוב:** בשדות עם שמות זהים בין שני הקבצים, הערכים חייבים להיות זהים!
+4.  **Edit `.gitignore`:**
+    * Add any directory or file to the `.gitignore` file that you do not want to appear in the repository.
 
-4.  **עריכת קובץ `.gitignore`:**
-     הוסיפו לקובץ `gitignore.` כל ספריה או קובץ שאינכם מעוניינים שיופיעו בריפו.
+5.  **Install Dependencies:**
+    * Open a console (CMD or within VSCode).
+    * Run the following command: `npm install`
 
-5.  **התקנת חבילות:**
-     פתחו קונסול (CMD או בתוך VSCode).
-     הריצו את הפקודה הבאה: `npm install`
-
-6.  **יצירת ריפו חדש בגיטהאב:**
-   פתחו ריפו חדש בגיטהאב של Outburn: [https://github.com/Outburn-IL/](https://github.com/Outburn-IL/)
-   במידה ואינכם יודעים כיצד לבצע זאת, פנו לקיפי לעזרה.
+6.  **Create a New GitHub Repository:**
+    * Create a new repository on Outburn's GitHub: [https://github.com/Outburn-IL/](https://github.com/Outburn-IL/)
+    * If you're unsure how to do this, ask for assistance.
 
 ---
 
-**סיום והמלצות:**
+**Completion and Recommendations:**
 
-הפרויקט שלכם כעת מוכן לעבודה. בשלב זה, מומלץ לבצע commit ראשוני לגיט, על מנת שמעקב אחר השינויים יתחיל מהשינוי הראשון בפרויקט.
+Your project is now ready to go. At this stage, it's recommended to perform an **initial commit** to Git, so that tracking of changes begins from the project's very first modification.
 
-מעתה ואילך, עבדו אך ורק ב-VSCode. מומלץ להוסיף את השורה הבאה מתחת לשורת ה-Description בכל קובץ פרופיל/VS/CS:
-\* insert ConforamnceMetadata
+From this point forward, you will work exclusively in **VSCode**. It's highly recommended to add the following line below the `Description` line in every Profile, VS, or CS file:
