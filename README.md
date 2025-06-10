@@ -1,8 +1,8 @@
 ## Creating a New Project in FSH from this template
 
 **Create new Repository from this template:**  
-Look for a green button above the file list that says "Use this template". Click it.  
-GitHub will take you to a "Create a new repository" page.  
+- Look for a green button above the file list that says "Use this template". Click it.  
+- GitHub will take you to a "Create a new repository" page.  
 
 Owner: Select the GitHub account or organization where you want the new project to reside (Generally, this should be `Outburn`).  
 Repository name: This is where you'll give your new project its unique name.  
@@ -53,4 +53,4 @@ click on the branch name you wish to work on (your new branch).
 Your project is now ready to go. At this stage, it's recommended to perform an **initial commit*to Git, so that tracking of changes begins from the project's very first modification.  
 From this point forward, you will work exclusively in **VSCode**. It's highly recommended to add the following line below the `Description` line in every Profile, VS, or CS `.fsh` file:  
 
-`insert ConformanceMetadata`
+`* insert ConformanceMetadata`
