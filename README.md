@@ -28,6 +28,10 @@ Click the green "Create repository from template" button.
 #### **Edit `.gitignore`:**  
 Add any directory or file to the `.gitignore` file that you do not want to appear in the repository.   
 
+#### **Edit `ig.ini`:**  
+`ig = fsh-generated/resources/ImplementationGuide-{id}.json`
+**Note**: replace {id} with the EXACT same id as in the `sushi-config.yaml` file.
+
 #### **Install the automated test suite:**  
 - Open a console (CMD or within VSCode).  
 - Run the following command: `npm install`  
