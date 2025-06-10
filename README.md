@@ -33,3 +33,4 @@
 Your project is now ready to go. At this stage, it's recommended to perform an **initial commit** to Git, so that tracking of changes begins from the project's very first modification.
 
 From this point forward, you will work exclusively in **VSCode**. It's highly recommended to add the following line below the `Description` line in every Profile, VS, or CS file:
+`* insert ConformanceMetadata`
