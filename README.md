@@ -1,4 +1,4 @@
-# Checklist for Creating a New Project in FSH
+## Checklist for Creating a New Project in FSH
 
 ---
 
