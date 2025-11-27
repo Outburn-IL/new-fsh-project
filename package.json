@@ -1,7 +1,7 @@
 {
-  "name": "{project name}",
+  "name": "",
   "version": "0.1.0",
-  "description": "{description}",
+  "description": "",
   "type": "module",
   "scripts": {
     "ruleset": "node updateRuleSet.js",
@@ -19,7 +19,7 @@
     "type": "git",
     "url": "git+https://github.com/{organization}/{repository_name}.git"
   },
-  "author": "{publisher_full_name}",
+  "author": "",
   "bugs": {
     "url": "https://github.com/{organization}/{repository_name}/issues" 
   },
