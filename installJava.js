@@ -1,10 +1,10 @@
-import path from "path";
-import { tmpdir as _tmpdir } from "os";
-import { x } from "tar";
+﻿import path from \"path\";
+import { tmpdir as _tmpdir } from \"os\";
+import { x } from \"tar\";
 import fs from 'fs-extra';
 import AdmZip from 'adm-zip';
 import { $ } from 'execa';
-import { getJrePath, getJreBin, fetch } from "./utils.js";
+import { getJrePath, getJreBin, fetch } from \"./utils.js\";
 
 const unzipDirectory = async (inputFilePath, outputDirectory) => {
   const zip = new AdmZip(inputFilePath);
@@ -14,7 +14,7 @@ const unzipDirectory = async (inputFilePath, outputDirectory) => {
               console.log(error);
               reject(error);
           } else {
-              console.log(`Extracted to "${outputDirectory}" successfully`);
+              console.log(\Extracted to \"\\" successfully\);
               resolve();
           }
       });
@@ -26,10 +26,10 @@ const extractFileName = (contentDisposition) => {
   if (typeof contentDisposition === 'string' && contentDisposition.startsWith('attachment;')) {
     const parts = contentDisposition.split(';');
     const namePart = parts.length > 1 ? parts[1].trimStart() : undefined;
-    if (typeof namePart === 'string' && (namePart.startsWith('filename=') || namePart.startsWith('"filename"='))) {
+    if (typeof namePart === 'string' && (namePart.startsWith('filename=') || namePart.startsWith('\"filename\"='))) {
       const equalIndex = namePart.indexOf('=');
       filename = namePart.substring(equalIndex + 1).split(';')[0];
-      if (filename.startsWith('"') && filename.trimEnd().endsWith('"')) {
+      if (filename.startsWith('\"') && filename.trimEnd().endsWith('\"')) {
         filename = filename.substring(1, filename.length - 2);
       }
     }
@@ -38,15 +38,15 @@ const extractFileName = (contentDisposition) => {
 };
 
 const download = async (dir, url) => {
-  console.log(`Downloading JRE archive from ${url} into ${dir}`);
+  console.log(\Downloading JRE archive from \ into \\);
   fs.ensureDirSync(dir);
   const response = await fetch(url);
   const attachmentName = extractFileName(response?.headers['content-disposition']);
   const destFile = path.join(dir, attachmentName);
   if (response && response?.data) {
-    console.log(`Downloaded the JRE archive, saving as '${destFile}'`);
+    console.log(\Downloaded the JRE archive, saving as '\'\);
     fs.writeFileSync(destFile, response.data);
-    console.log(`Saved JRE archive in: ${destFile}`);
+    console.log(\Saved JRE archive in: \\);
     return destFile
   } else {
     throw new Error('Download failed :(')
@@ -55,14 +55,14 @@ const download = async (dir, url) => {
 
 const move = (file) => {
   const newFile = path.join(path.resolve('.'), file.split(path.sep).slice(-1)[0]);
-  console.log(`Moving ${file} to ${newFile}`);
+  console.log(\Moving \ to \\);
   fs.copyFileSync(file, newFile);
   fs.unlinkSync(file);
   return newFile;
 }
 
 const extractTarGz = async (file, dir) => {
-  console.log(`Extracting ${file} into ${dir}`);
+  console.log(\Extracting \ into \\);
   x({file, cwd: dir});
   fs.unlinkSync(file);
   return dir;
@@ -93,64 +93,63 @@ const installJre = async () => {
 const install = async () => {
   const version = 21;
   const options = {
-    openjdk_impl: "hotspot",
-    release: "latest",
-    type: "jre",
-    heap_size: "normal",
-    vendor: "adoptopenjdk"
+    openjdk_impl: \"hotspot\",
+    release: \"latest\",
+    type: \"jre\",
+    heap_size: \"normal\",
+    vendor: \"adoptopenjdk\"
   };
 
-  const endpoint = "api.adoptopenjdk.net";
-  const versionPath = "latest/" + version + "/ga";
+  const endpoint = \"api.adoptopenjdk.net\";
+  const versionPath = \"latest/\" + version + \"/ga\";
 
   switch (process.platform) {
-    case "aix":
-      options.os = "aix";
+    case \"aix\":
+      options.os = \"aix\";
       break;
-    case "darwin":
-      options.os = "mac";
+    case \"darwin\":
+      options.os = \"mac\";
       break;
-    case "linux":
-      options.os = "linux";
+    case \"linux\":
+      options.os = \"linux\";
       break;
-    case "sunos":
-      options.os = "solaris";
+    case \"sunos\":
+      options.os = \"solaris\";
       break;
-    case "win32":
-      options.os = "windows";
+    case \"win32\":
+      options.os = \"windows\";
       break;
     default:
-        throw new Error(`Unsupported operating system ${process.platform}`)
+        throw new Error(\Unsupported operating system \\)
   }
 
-
   if (/^ppc64|s390x|x32|x64$/g.test(process.arch)) options.arch = process.arch;
-  else if (process.arch === "ia32") options.arch = "x32";
-  else if (process.arch === "arm64") options.arch = "aarch64";
+  else if (process.arch === \"ia32\") options.arch = \"x32\";
+  else if (process.arch === \"arm64\") options.arch = \"aarch64\";
   else
-    throw new Error(`Unsupported architecture ${process.arch}`)  
+    throw new Error(\Unsupported architecture \\)  
 
   const url =
-    "https://" +
+    \"https://\" +
     endpoint +
-    "/v3/binary/" +
+    \"/v3/binary/\" +
     versionPath +
-    "/" +
+    \"/\" +
     options.os +
-    "/" +
+    \"/\" +
     options.arch +
-    "/" +
+    \"/\" +
     options.type +
-    "/" +
+    \"/\" +
     options.openjdk_impl +
-    "/" +
+    \"/\" +
     options.heap_size +
-    "/" +
+    \"/\" +
     options.vendor;
 
-  const tmpdir = path.join(_tmpdir(), "jre");
+  const tmpdir = path.join(_tmpdir(), \"jre\");
 
-  console.log("Java URL: " + url);
+  console.log(\"Java URL: \" + url);
   const file = await download(tmpdir, url);
   const newFile = move(file);
   return await extract(newFile);
@@ -159,7 +158,7 @@ const install = async () => {
 const isJavaInstalled = async () => {
   const jreBin = getJreBin()
   if (jreBin) {
-      const result = await $`${jreBin} -version`;
+      const result = await $\\ -version\;
       return result.exitCode === 0;
   } else {
       return false;

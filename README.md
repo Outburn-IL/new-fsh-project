@@ -1,60 +1,250 @@
-## Creating a New Project in FSH from this template
+﻿# FSH Project Template
 
-**Create new Repository from this template:**  
-- Look for a green button above the file list that says "Use this template". Click it.  
-- GitHub will take you to a "Create a new repository" page.  
+This repository provides a complete template for starting new FHIR Implementation Guide projects using FSH (FHIR Shorthand).
 
-Owner: Select the GitHub account or organization where you want the new project to reside (Generally, this should be `Outburn`).  
-Repository name: This is where you'll give your new project its unique name.  
-Description (optional): Add a description for your new project.  
-Public/Private: Choose the visibility for your new project.  
-Click the green "Create repository from template" button.  
+## Features
 
-#### **Clone the Repository:**  
-- In your repo on the github website, click on the green `<> Code` button.  
-- Copy the url.  
-- in your console (CMD or within VSCode), type:  
-`git clone {enter the copied url here} {folder name you want for your project}`  
+-  **JRE 21** - Automatic Java Runtime Environment installation
+-  **FHIR Validator** - Automatic download of latest validator
+-  **Dynamic Metadata** - Version and contact info auto-generated from \sushi-config.yaml\
+-  **Windows Path Fix** - Proper handling of paths with spaces
+-  **Dependency Filtering** - Automatic removal of \hl7.fhir.extensions.r*\ packages
+-  **npm Test Suite** - Validation scripts for examples and full IG
 
-#### **Edit `sushi-config.yaml`:**  
-- Inside the project directory, open the `sushi-config.yaml` file.  
-- Edit all fields that contain content within curly braces (`{}`).  
-**Note:** The `id` field MUST comply with FHIR guidelines, which can be found here: [https://confluence.hl7.org/plugins/servlet/mobile?contentId=35718629#content/view/35718629](https://confluence.hl7.org/plugins/servlet/mobile?contentId=35718629#content/view/35718629)  
+## Quick Start
 
-#### **Edit `package.json`:**  
-- Perform the same editing steps for the `package.json` file.  
-- **Important:** For fields with identical names to those in the `sushi-config.yaml` file, the values **must** be the same!  
+### 1. Create New Repository from Template
 
-#### **Edit `.gitignore`:**  
-Add any directory or file to the `.gitignore` file that you do not want to appear in the repository.   
+1. Click the green **\"Use this template\"** button above
+2. Select owner: **Outburn-IL** (or your organization)
+3. Enter your project name
+4. Choose Public/Private visibility
+5. Click **\"Create repository from template\"**
 
-#### **Edit `ig.ini`:**  
-`ig = fsh-generated/resources/ImplementationGuide-{id}.json`  
-**Note**: replace {id} with the EXACT same id as in the `sushi-config.yaml` file.
+### 2. Clone Your New Repository
 
-#### **Install the automated test suite:**  
-- Open a console (CMD or within VSCode).  
-- Run the following command: `npm install`  
+\\\ash
+git clone https://github.com/Outburn-IL/{your-project-name}.git
+cd {your-project-name}
+\\\
 
-#### **Create a New GitHub Repository:**  
-- Create a new repository on Outburn's GitHub: [https://github.com/Outburn-IL/](https://github.com/Outburn-IL/)  
-- If you're unsure how to do this, ask for assistance.  
+### 3. Configure Your Project
 
-#### **initial commit**  
-in VSCode, commit all your changes and push to main.  
+#### Edit \sushi-config.yaml\
+- Replace all fields containing \{}\ with your project details
+- **Important**: The \id\ field must comply with [FHIR IG naming guidelines](https://confluence.hl7.org/plugins/servlet/mobile?contentId=35718629#content/view/35718629)
+- The \ersion\, \date\, and \contact\ fields will automatically populate your RuleSet metadata
 
-#### **create your local branch**  
-- if you are not the only person working on the project, it is good practice to create your own branch.  
-- In the github repo page, click on `Branch`.  
-- Enter branch name and click on the green `Create new branch`  
-- In VSCode, click on the branch name on the bottom left corner (usually, it will be called `main`)  
-- click on the branch name you wish to work on (your new branch).  
+#### Edit \package.json\
+- Update fields to match \sushi-config.yaml\
+- **Critical**: \
+ame\, \ersion\, and \description\ must match exactly
 
+#### Edit \ig.ini\
+Replace \{id}\ with your exact IG id:
+\\\ini
+ig = fsh-generated/resources/ImplementationGuide-{id}.json
+\\\
+
+#### Edit \.gitignore\ (Optional)
+Add any files/folders you don't want in the repository.
+
+### 4. Install Dependencies
+
+\\\ash
+npm install
+\\\
+
+This will install all required npm packages.
+
+### 5. Setup Java and Validator
+
+On first run, these will auto-download:
+
+\\\ash
+npm run check:java        # Downloads JRE 21 to ./jre/
+npm run check:validator   # Downloads FHIR validator to ./validator_cli.jar
+\\\
+
+Or run validation directly - missing resources will auto-install:
+
+\\\ash
+npm run validate:ex       # Validates examples (auto-installs JRE & validator if needed)
+\\\
+
+### 6. Initial Commit
+
+\\\ash
+git add .
+git commit -m \"Initial project setup\"
+git push origin main
+\\\
+
+### 7. Create Your Working Branch (Recommended)
+
+\\\ash
+git checkout -b your-name-dev
+git push -u origin your-name-dev
+\\\
+
+Or via GitHub website:
+1. Go to your repo page
+2. Click **Branches**  **New branch**
+3. In VS Code, click branch name (bottom-left)  select your branch
 
 ---
 
-### **Completion and Recommendations:**  
-Your project is now ready to go. At this stage, it's recommended to perform an **initial commit*to Git, so that tracking of changes begins from the project's very first modification.  
-From this point forward, you will work exclusively in **VSCode**. It's highly recommended to add the following line below the `Description` line in every Profile, VS, or CS `.fsh` file:  
+## Available npm Scripts
 
-`* insert ConformanceMetadata`
+### Validation
+\\\ash
+npm run validate:ex       # Validate example resources
+npm run validate:ig       # Validate full Implementation Guide
+npm test                  # Run all validation tests
+\\\
+
+### Setup
+\\\ash
+npm run check:java        # Install/verify Java Runtime Environment
+npm run check:validator   # Install/verify FHIR Validator
+npm run prepare:validation # Prepare all validation resources
+\\\
+
+### SUSHI
+\\\ash
+npm run sushi             # Compile FSH to FHIR resources
+\\\
+
+---
+
+## Project Structure
+
+\\\
+your-project/
+ input/
+    fsh/              # Your FSH files go here
+        RuleSet-metadata.fsh  # Auto-generated from sushi-config.yaml
+ examples/             # Example FHIR resources
+ jre/                  # Java Runtime (auto-downloaded)
+ fsh-generated/        # Generated FHIR resources (don't edit)
+ validator_cli.jar     # FHIR validator (auto-downloaded)
+ sushi-config.yaml     # Main IG configuration
+ package.json          # npm configuration
+ ig.ini                # IG Publisher configuration
+\\\
+
+---
+
+## Best Practices
+
+### ConformanceMetadata RuleSet
+Add this line below the Description in every Profile, ValueSet, or CodeSystem:
+
+\\\sh
+* insert ConformanceMetadata
+\\\
+
+This automatically adds:
+- Version (from \sushi-config.yaml\)
+- Date (from \sushi-config.yaml\)
+- Publisher contact info
+
+### Version Management
+- **Single source of truth**: Edit version only in \sushi-config.yaml\
+- \RuleSet-metadata.fsh\ regenerates automatically on each \
+pm run sushi\
+- Update \package.json\ version to match
+
+### Git Workflow
+1. Always work in a feature branch
+2. Commit frequently with clear messages
+3. Push to remote regularly
+4. Create Pull Requests for review
+
+---
+
+## Automated Features
+
+### Dynamic Metadata Generation
+The \updateRuleSet.js\ script automatically:
+- Reads version from \sushi-config.yaml\
+- Extracts date from \sushi-config.yaml\
+- Pulls contact email from \sushi-config.yaml\
+- Generates \input/fsh/RuleSet-metadata.fsh\
+
+**Runs automatically before validation** - no manual action needed.
+
+### Dependency Filtering
+Automatically removes problematic \hl7.fhir.extensions.r*\ packages that cause validation issues.
+
+### Windows Path Handling
+Fixed issue where paths with spaces would break validation on Windows.
+
+---
+
+## Troubleshooting
+
+### JRE Not Found
+\\\ash
+npm run check:java
+\\\
+
+### Validator Not Found
+\\\ash
+npm run check:validator
+\\\
+
+### Validation Errors
+1. Check \alidator_cli_output.ex.html\ for detailed error reports
+2. Verify your \sushi-config.yaml\ dependencies are correct
+3. Ensure examples are in \examples/\ folder
+4. Run \
+pm run sushi\ to regenerate resources
+
+### Multiple JRE Versions
+The system will automatically clean up if multiple JRE versions exist.
+
+---
+
+## Technical Details
+
+### JRE Version
+- **Version 21** (OpenJDK from adoptopenjdk.net)
+- Auto-downloads on first validation
+- Supports Windows, Mac, Linux
+
+### FHIR Validator
+- Latest version from [hapifhir/org.hl7.fhir.core](https://github.com/hapifhir/org.hl7.fhir.core)
+- Updates automatically when you run \
+pm run check:validator\
+
+### npm Dependencies
+\\\json
+{
+  \"execa\": \"^9.3.0\",
+  \"sushi\": \"^3.0.0\",
+  \"axios\": \"^1.7.2\",
+  \"fs-extra\": \"^11.2.0\",
+  \"js-yaml\": \"^4.1.0\",
+  \"jsonata\": \"^2.0.5\",
+  \"tar\": \"^7.4.0\",
+  \"adm-zip\": \"^0.5.14\",
+  \"path\": \"^0.12.7\"
+}
+\\\
+
+---
+
+## Support
+
+For questions or issues:
+1. Check this README
+2. Review [FHIR Shorthand documentation](https://fshschool.org/)
+3. Ask your team lead
+4. Open an issue in this repository
+
+---
+
+## License
+
+See LICENSE file in repository.
