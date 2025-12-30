@@ -1,12 +1,13 @@
-{
+﻿{
   "name": "",
   "version": "0.1.0",
   "description": "",
   "type": "module",
   "scripts": {
+    "sync:version": "node syncVersion.js",
     "ruleset": "node updateRuleSet.js",
     "manifest": "node createManifest.js",
-    "sushi": "npm run ruleset && sushi build -s && npm run manifest",
+    "sushi": "npm run sync:version && npm run ruleset && sushi build -s && npm run manifest",
     "sushi:diff": "sushi build --out differentials",
     "check:java": "node installJava.js",
     "check:validator": "node downloadValidator.js",
@@ -21,7 +22,7 @@
   },
   "author": "",
   "bugs": {
-    "url": "https://github.com/{organization}/{repository_name}/issues" 
+    "url": "https://github.com/{organization}/{repository_name}/issues"
   },
   "homepage": "https://github.com/{organization}/{repository_name}#readme",
   "dependencies": {
